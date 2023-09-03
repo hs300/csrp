@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Profiling;
 using UnityEngine.Rendering;
 
 public partial class CameraRenderer
@@ -58,11 +59,22 @@ public partial class CameraRenderer
             ScriptableRenderContext.EmitWorldGeometryForSceneView(camera);
         }
     }
+
+    partial void PrepareBuffer()
+    {
+        Profiler.BeginSample("Editor Only");
+        buffer.name = SampleName = camera.name;
+        Profiler.EndSample();
+    }
+
+    private string SampleName { get; set;}
 #else
-    
+    private const string SampleName = bufferName;
 #endif
     partial void DrawUnsupportedShaders();
     partial void DrawGizmos();
-
     partial void PrepareForSceneWindow();
+    partial void PrepareBuffer();
+
+    
 }

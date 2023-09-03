@@ -6,16 +6,12 @@ using UnityEngine.Rendering;
 public partial class CameraRenderer
 {
     static ShaderTagId unlitShaderTagId = new ShaderTagId("SRPDefaultUnlit");
-
-    
     
     private ScriptableRenderContext context;
 
     private Camera camera;
 
     const string bufferName = "Render Camera";
-
-   
     
     private CommandBuffer buffer = new CommandBuffer()
     {
@@ -25,7 +21,7 @@ public partial class CameraRenderer
     {
         this.context = context;
         this.camera = camera;
-
+        PrepareBuffer();
         PrepareForSceneWindow();
         
         if (!Cull())
@@ -45,14 +41,22 @@ public partial class CameraRenderer
     void Setup()
     {
         context.SetupCameraProperties(camera);
-        buffer.ClearRenderTarget(true,true,Color.clear);
-        buffer.BeginSample(bufferName);
+
+        CameraClearFlags flags = camera.clearFlags;
+
+        var color = Color.clear;
+        if (flags == CameraClearFlags.Color)
+        {
+            color = camera.backgroundColor.linear;
+        }
+        buffer.ClearRenderTarget(flags <= CameraClearFlags.Depth,flags == CameraClearFlags.Color,color);
+        buffer.BeginSample(SampleName);
         ExecuteBuffer();
     }
     
     void Submit()
     {
-        buffer.EndSample(bufferName);
+        buffer.EndSample(SampleName);
         ExecuteBuffer();
         context.Submit();
     }

@@ -54,6 +54,10 @@
      <Compile Include="Assets\CustomRP\Runtime\CameraRenderer.cs" />
      <Compile Include="Assets\CustomRP\Runtime\CustomRenderPineAsset.cs" />
      <Compile Include="Assets\CustomRP\Runtime\CustomRenderPipeline.cs" />
+     <None Include="Assets\CustomRP\ShaderLibrary\Common.hlsl" />
+     <None Include="Assets\CustomRP\ShaderLibrary\UnityInput.hlsl" />
+     <None Include="Assets\CustomRP\Shaders\UnlitShader.shader" />
+     <None Include="Assets\CustomRP\Shaders\UnlitPass.hlsl" />
  <Reference Include="Unity.Timeline.Editor">
  <HintPath>E:/work/learncrp/Library/ScriptAssemblies/Unity.Timeline.Editor.dll</HintPath>
  </Reference>
